@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Annuaire Intranet</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style2.css') }}">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <style>
+        .grid { 
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          grid-gap: 20px;
+          align-items: stretch;
+          border-radius: 10px;
+          }
+        .grid > article {
+          border: 1px solid #ccc;
+          box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+          border-radius: 10px;
+        }
+        .grid > article img {
+          max-width: 100%;
+          border-radius: 10px;
+        }
+        .text {
+          padding: 0 20px 20px;
+        }
+        .text > button {
+          background: dodgerblue;
+          border: 0;
+          color: white;
+          padding: 10px;
+          width: 100%;
+          border-radius: 10px;
+          }
+        .Service{
+            font-size: 22px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: dodgerblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h2>Annuaire</h2>
+            </div>
+
+            <!-- menu responsive a droite -->
+            <ul class="list-unstyled components">
+                
+                <li><a href="/">Annuaire</a></li>
+                <li><a href="A">Service A</a></li>
+                <li><a href="B">Service B</a></li>
+                <li><a href="C">Service C</a></li>
+                
+            </ul>
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://www.banas.ovh/" class="article">BANAS</a>
+                </li>  
+            </ul>
+        </nav>
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <!-- menu en haut a droite pour pointer vers d'autre app interne mettre url dans les href -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="">app1</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="">app2</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="">app3</a>
+                            </li>
+                            
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="line"></div>
+
+            <!-- Permet de mettre les div card en grid -->
+            <main class="grid">
+                <!-- syntax jinja permet de faire la boucle python qui parcour la bdd -->
+                {% for user in users %}
+                    <article>
+                        <!-- {{ url_for('static', filename='User2.png') }} permet de recupe la photo en syntax jinja -->
+                        <img src="{{ url_for('static', filename='User2.png') }}" alt="Sample photo">
+                        <div class="text">
+                            <!-- {{ user[1] }} recupere le premier champ de la bdd -->
+                            <p class="Service">{{ user[1] }}</p>
+                            <p>{{ user[2] }} {{ user[3] }}</p>
+                            <button>{{ user[5] }}</button>
+                        </div>
+                    </article>
+                <!-- permet de fermer le block jinja -->
+                {% endfor %}
+              </main>
+        </div>
+    </div>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+
+</html>
